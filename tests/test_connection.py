@@ -1,4 +1,4 @@
-from core.connection import connect_to_device, start_server
+from core.connection import client_mode, server_mode
 import sys
 
 """
@@ -15,9 +15,10 @@ if __name__ == "__main__":
     mode = sys.argv[1].lower()
 
     if mode == "server":
-        result = start_server()
+        result = server_mode()
         if result:
             sock, client_info = result
+            print(f"[TEST]: Server started, waiting for connection...")
             print(f"[TEST]: Connected with {client_info}")
             sock.close()
         else:
@@ -29,7 +30,7 @@ if __name__ == "__main__":
             sys.exit(1)
 
         address = sys.argv[2]
-        sock = connect_to_device(address)
+        sock = client_mode(address)
         if sock:
             print(f"[TEST]: Connected to server at {address}")
             sock.close()
